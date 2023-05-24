@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { Login } from '../pages/Login'
 
 function App() {
 
   return (
     <>
-   HELLO WORLD
+      <Login />
     </>
   )
 }
