@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../../context/authContext';
 
 export function Login() {
-  const [apiKey, setApiKey] = useState('');
-  const [isValidKey, setIsValidKey] = useState(true);
+  const { 
+    apiKey, 
+    setApiKey,
+    isValidKey, 
+    setIsValidKey 
+  } = useContext(AuthContext);
 
+  const [errorKey, setErrorKey] = useState(isValidKey);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -15,14 +22,15 @@ export function Login() {
         }
       });
       
-      console.log(response.data.response);
-      console.log(response.data.response.subscription.active);
-      const { active } = response.data.response.subscription;
+      // console.log(response.data.response);
+      // console.log(response.data.response.subscription.active);
+      const { active } = response.data.response;
 
-      if (response.data.response) {
+      if (active) {
         alert("Pode iniciar escolhendo um país")
       } else {
         setIsValidKey(false);
+        setErrorKey(true);
       }
     } catch (error) {
       console.error(error);
@@ -30,21 +38,27 @@ export function Login() {
   };
 
   return (
+    <AuthContext.Provider value={{ setApiKey }}>
+
     <div>
       <h2 className="">Welcome to My Team</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handleSubmit(e, setApiKey)}>
         <input
           type="text"
           name="userKey"
           placeholder="Chave de entrada"
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
+          onFocus={()=>setErrorKey(false)}
         />
-        {!isValidKey && <p>Chave inválida</p>}
 
         <button type="submit">Entrar</button>
 
+        {errorKey && <p>Chave inválida</p>}
+
       </form>
     </div>
+          
+    </AuthContext.Provider>
   );
 }
