@@ -8,23 +8,22 @@ export function Home() {
     isValidKey, 
   } = useContext(AuthContext);
 
-  const getCountries = async () => {
-    try {
-      const response = await axios.get('https://v3.football.api-sports.io/coutries', {
+  console.log(apiKey);
+  
+  const getCountries = async (apiKey) => {
+    const response = await axios.get('https://v3.football.api-sports.io/countries', {
         headers: {
           'x-apisports-key': apiKey
         }
       });
 
       console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      const countries = response;
+  }
 
   return (
     <div>
-      <button onClick={getCountries}>Fetch Data</button>
+      <button onClick={() => getCountries(apiKey)}>Fetch Data</button>
     </div>
   );
 }

@@ -14,14 +14,6 @@ function ProtectedRoute({ element: Element, redirectTo }) {
 }
 
 export function MyRoutes() {
-  const { setApiKey, apiKey, isValidKey, setIsValidKey } = useContext(AuthContext);
-
-  useEffect(() => {
-    const apiKeyFromLocalStorage = localStorage.getItem('apiKey');
-    if (apiKeyFromLocalStorage) {
-      setApiKey(apiKeyFromLocalStorage);
-    }
-  }, [isValidKey]);
 
   return (
     <Routes>
@@ -46,14 +38,7 @@ export function MyRoutes() {
           <Route path="/home" element={<Home />} />
         </Route>
       </Route>
-      {/* <Route
-        path="/home"
-        element={
-          <Suspense fallback={<div>Loading...</div>}>
-            <ProtectedRoute element={<Home />} redirectTo="/login" />
-          </Suspense>
-        }
-      /> */}
+
     </Routes>
   );
 }

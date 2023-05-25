@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router';
 export function Login() {
   const navigate = useNavigate();
 
-  const { apiKey, setApiKey, setIsValidKey, isValidKey } = useContext(AuthContext);
+  const { apiKey, setApiKey, setIsValidKey, isValidKey, localApiKey, 
+    setLocalApiKey } = useContext(AuthContext);
   const [errorKey, setErrorKey] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -25,13 +26,13 @@ export function Login() {
         }
       });
 
-      console.log(response.data.results);
       const active = response.data.results === 1;
-      console.log(active);
 
       if (active) {
         setIsValidKey(true);
+        setLocalApiKey(e.target.value)
         navigate('/home');
+        console.log(e.target.value)
       } 
       if(!active){
         setIsValidKey(false);
@@ -47,6 +48,7 @@ export function Login() {
       <div>
         <h2 className="">Bem Vindo ao Meu Time</h2>
         <form onSubmit={(e) => handleSubmit(e, setApiKey)}>
+        <div className="containerInput">
           <input
             type="text"
             name="userKey"
@@ -54,9 +56,10 @@ export function Login() {
             onChange={(e) => setApiKey(e.target.value)}
             onFocus={() => setErrorKey(false)}
           />
+          {errorKey && !apiKey && <span>Chave obrigatória</span>}
+          {errorKey && !isValidKey && <span>Chave inválida</span>}
+        </div>
           <button type="submit">Login</button>
-          {errorKey && !apiKey && <p>Chave obrigatória</p>}
-          {errorKey && !isValidKey && <p>Chave inválida</p>}
         </form>
       </div>
     </AuthContext.Provider>
