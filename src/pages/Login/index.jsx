@@ -46,7 +46,7 @@ export function Login() {
   return (
     <AuthContext.Provider value={{ setApiKey }}>
       <div>
-        <h2 className="">Bem Vindo ao Meu Time</h2>
+        <h2 className="">Bem Vindo a Meu Time</h2>
         <form onSubmit={(e) => handleSubmit(e, setApiKey)}>
         <div className="containerInput">
           <input
