@@ -16,14 +16,13 @@ export function Home() {
         }
       });
 
-      // Resto do código
       console.log(response);
     } catch (error) {
       console.error(error);
     }
   };
 
-  return isValidKey && (
+  return (
     <div>
       <button onClick={getCountries}>Fetch Data</button>
     </div>
