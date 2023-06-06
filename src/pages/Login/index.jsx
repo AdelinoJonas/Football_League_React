@@ -31,8 +31,8 @@ export function Login() {
       if (active) {
         setIsValidKey(true);
         setLocalApiKey(e.target.value)
+        setApiKey(e.target.value)
         navigate('/home');
-        console.log(e.target.value)
       } 
       if(!active){
         setIsValidKey(false);

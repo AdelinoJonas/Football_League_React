@@ -8,9 +8,20 @@ export const AuthProvider = ({ children }) => {
   const [apiKey, setApiKey, apiKeyRemove] = useLocalStorage('apiKey');
   const [isValidKey, setIsValidKey] = useState(null);
   const [localApiKey, setLocalApiKey] = useState("");
-  const [countries, setCountries] = useState([]);
+  
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const getCountries = async (apiKey) => {
+  const [countries, setCountries] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  
+  const [leagues, setLeagues] = useState([]);
+  const [filteredLeagues, setFilteredLeagues] = useState([]);
+
+
+
+
+  const getCountries = async () => {
     const response = await axios.get('https://v3.football.api-sports.io/countries', {
       headers: {
         'x-apisports-key': apiKey
@@ -18,10 +29,24 @@ export const AuthProvider = ({ children }) => {
     });
 
     const countries = response.data.response;
-
     setCountries(countries);
     setFilteredCountries(countries);
   };
+
+  const getLeagues = async () => {
+    const response = await axios.get('https://v3.football.api-sports.io/leagues', {
+      headers: {
+        'x-apisports-key': apiKey
+      }
+    });
+    console.log(response);
+
+    const leagues = response.data.response;
+    console.log(leagues);
+    setLeagues(leagues);
+    setFilteredLeagues(leagues);
+  };
+
 
   return (
     <AuthContext.Provider value={{ 
@@ -32,7 +57,18 @@ export const AuthProvider = ({ children }) => {
       localApiKey, 
       setLocalApiKey,
       getCountries,
-      countries
+      countries, 
+      filteredCountries, 
+      setFilteredCountries,
+      showDropdown, 
+      setShowDropdown,
+      getLeagues,
+      leagues, 
+      setLeagues,
+      filteredLeagues, 
+      setFilteredLeagues,
+      selectedCountry, 
+      setSelectedCountry
       }}
     >
       {children}
